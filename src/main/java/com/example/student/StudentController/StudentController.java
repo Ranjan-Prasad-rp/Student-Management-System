@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+
 @RestController
 @RequestMapping("/student")
 // This annotation indicates that this class is a REST controller
@@ -77,6 +79,38 @@ public class StudentController {
             return new ResponseEntity<>("Student added successfully", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>("Error adding student: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+    @PutMapping("/updateStudent/{id}")
+    public ResponseEntity<?> updateStudent(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
+        try {
+            StudentDTO updatedStudent = studentService.updateStudent(id, studentDTO);
+            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error updating student: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PatchMapping("/updateField/{id}")
+    public ResponseEntity<?> updateField(@PathVariable Long id, @RequestBody StudentDTO studentDTO) {
+        try {
+            StudentDTO updatedStudent = studentService.updateStudent(id, studentDTO);
+            return new ResponseEntity<>(updatedStudent, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error updating student: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/deleteStudent/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable Long id){
+        try {
+            studentService.deleteStudent(id);
+            return new ResponseEntity<>("Student deleted successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error deleting student: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
     }

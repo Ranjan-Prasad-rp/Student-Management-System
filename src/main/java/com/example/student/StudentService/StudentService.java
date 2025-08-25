@@ -43,6 +43,23 @@ public class StudentService {
         studentRepository.save(student);
     }
 
+    public StudentDTO updateStudent(Long id, StudentDTO studentDTO) {
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+        existingStudent.setName(studentDTO.getName());
+        existingStudent.setEmail(studentDTO.getEmail());
+        studentRepository.save(existingStudent);
+        return new StudentDTO(existingStudent.getId(), existingStudent.getName(), existingStudent.getEmail());
+    }
+
+
+    public String deleteStudent(Long id) {
+        if (!studentRepository.existsById(id)) {
+            throw new RuntimeException("Student not found with id: " + id);
+        }
+        studentRepository.deleteById(id);
+        return "Student with id " + id + " has been deleted.";
+    }
 
 
 }
