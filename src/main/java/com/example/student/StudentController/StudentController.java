@@ -5,6 +5,7 @@ import com.example.student.StudentService.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +31,11 @@ public class StudentController {
 
     }
 
+
+
+    @PreAuthorize("hasRole('USER')")
     @GetMapping("/getAllStudents")
+    @CrossOrigin(value = "http://127.0.0.1:5500/")
     public ResponseEntity<List<StudentDTO>> getStudents() {
         List<StudentDTO> studentList = studentService.studentList();
         if (studentList.isEmpty()) {
@@ -71,6 +76,8 @@ public class StudentController {
     }
 
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/addStudent")
     public ResponseEntity<String> addStudent(@RequestBody StudentDTO studentDTO) {
         // Assuming you have a method in StudentService to add a student
